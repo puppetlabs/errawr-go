@@ -1,11 +1,11 @@
-package errawr
+package impl
 
 type ErrorArgument struct {
-	Value       string
+	Value       interface{}
 	Description string
 }
 
-func (ea *ErrorArgument) Set(value string) {
+func (ea *ErrorArgument) Set(value interface{}) {
 	ea.Value = value
 }
 
@@ -13,7 +13,7 @@ func (ea *ErrorArgument) Validate(validator string) {
 
 }
 
-func NewErrorArgument(value, description string) *ErrorArgument {
+func NewErrorArgument(value interface{}, description string) *ErrorArgument {
 	return &ErrorArgument{
 		Value:       value,
 		Description: description,
