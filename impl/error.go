@@ -22,6 +22,7 @@ type ErrorDescription struct {
 }
 
 type Error struct {
+	Version          uint64
 	ErrorDomain      *ErrorDomain
 	ErrorSection     *ErrorSection
 	ErrorCode        string
@@ -37,6 +38,18 @@ func (e Error) Code() string {
 	return fmt.Sprintf(`%s_%s_%s`, e.ErrorDomain.Key, e.ErrorSection.Key, e.ErrorCode)
 }
 
+func (e Error) Title() string {
+	return e.ErrorTitle
+}
+
+func (e Error) Description() errawr.ErrorDescription {
+	return &UnformattedErrorDescription{e.ErrorDescription}
+}
+
+func (e *Error) FormattedDescription() errawr.ErrorDescription {
+	return &FormattedErrorDescription{delegate: e}
+}
+
 func (e Error) Arguments() map[string]interface{} {
 	m := make(map[string]interface{})
 	for k, a := range e.ErrorArguments {
@@ -46,20 +59,25 @@ func (e Error) Arguments() map[string]interface{} {
 	return m
 }
 
-func (e *Error) Bug() errawr.Error {
+func (e Error) Bug() errawr.Error {
 	e.buggy = true
-	return e
+	return &e
 }
 
-func (e *Error) IsBug() bool {
+func (e Error) IsBug() bool {
 	return e.buggy
 }
 
-func (e *Error) WithCause(cause errawr.Error) errawr.Error {
+func (e Error) WithCause(cause errawr.Error) errawr.Error {
+	e.causes = append([]errawr.Error{}, e.causes...)
 	e.causes = append(e.causes, cause)
-	return e
+	return &e
 }
 
-func (e *Error) Error() string {
+func (e Error) Causes() []errawr.Error {
+	return e.causes
+}
+
+func (e Error) Error() string {
 	return fmt.Sprintf(`%s: %s`, e.Code(), e.ErrorDescription)
 }
