@@ -81,6 +81,10 @@ func (e Error) IsBug() bool {
 }
 
 func (e Error) WithCause(cause errawr.Error) errawr.Error {
+	if cause.IsBug() {
+		e.buggy = true
+	}
+
 	e.causes = append([]errawr.Error{}, e.causes...)
 	e.causes = append(e.causes, cause)
 	return &e
@@ -91,7 +95,12 @@ func (e Error) Causes() []errawr.Error {
 }
 
 func (e Error) Error() string {
-	repr := fmt.Sprintf(`%s: %s`, e.Code(), e.FormattedDescription().Technical())
+	var buggy string
+	if e.IsBug() {
+		buggy = " (BUG)"
+	}
+
+	repr := fmt.Sprintf(`%s%s: %s`, e.Code(), buggy, e.FormattedDescription().Technical())
 	for _, cause := range e.Causes() {
 		repr += fmt.Sprintf("\n%s", cause.Error())
 	}
