@@ -34,8 +34,20 @@ type Error struct {
 	buggy  bool
 }
 
+func (e Error) Domain() errawr.ErrorDomain {
+	return &ErrorDomainRepr{Delegate: e.ErrorDomain}
+}
+
+func (e Error) Section() errawr.ErrorSection {
+	return &ErrorSectionRepr{Delegate: e.ErrorSection}
+}
+
 func (e Error) Code() string {
 	return fmt.Sprintf(`%s_%s_%s`, e.ErrorDomain.Key, e.ErrorSection.Key, e.ErrorCode)
+}
+
+func (e Error) Is(code string) bool {
+	return e.Code() == code
 }
 
 func (e Error) Title() string {
@@ -79,5 +91,10 @@ func (e Error) Causes() []errawr.Error {
 }
 
 func (e Error) Error() string {
-	return fmt.Sprintf(`%s: %s`, e.Code(), e.ErrorDescription)
+	repr := fmt.Sprintf(`%s: %s`, e.Code(), e.FormattedDescription().Technical())
+	for _, cause := range e.Causes() {
+		repr += fmt.Sprintf("\n%s", cause.Error())
+	}
+
+	return repr
 }

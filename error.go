@@ -1,5 +1,29 @@
 package errawr
 
+// ErrorDomain is the accessor type for error domains.
+type ErrorDomain interface {
+	// Key is the unique short representation of this domain.
+	Key() string
+
+	// Title is the human-readable representation of this domain.
+	Title() string
+
+	// Is tests whether this domain key is equivalent to the passed key.
+	Is(key string) bool
+}
+
+// ErrorSection is the accessor type for error section.
+type ErrorSection interface {
+	// Key is the unique short representation of this section.
+	Key() string
+
+	// Title is the human-readable representation of this section.
+	Title() string
+
+	// Is tests whether this section key is equivalent to the passed key.
+	Is(key string) bool
+}
+
 // ErrorDescription is the accessor type for error descriptions in different
 // states.
 type ErrorDescription interface {
@@ -15,8 +39,17 @@ type ErrorDescription interface {
 type Error interface {
 	error
 
+	// Domain is the broad domain for this error.
+	Domain() ErrorDomain
+
+	// Section is the domain-specific section for this error.
+	Section() ErrorSection
+
 	// Code is the full code for this error.
 	Code() string
+
+	// Is tests whether this error's code is equivalent to the passed code.
+	Is(code string) bool
 
 	// Title is the short title for this error.
 	Title() string
