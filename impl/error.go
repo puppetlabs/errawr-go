@@ -29,6 +29,7 @@ type Error struct {
 	ErrorTitle       string
 	ErrorDescription *ErrorDescription
 	ErrorArguments   ErrorArguments
+	ErrorMetadata    *ErrorMetadata
 
 	causes []errawr.Error
 	buggy  bool
@@ -69,6 +70,10 @@ func (e Error) Arguments() map[string]interface{} {
 	}
 
 	return m
+}
+
+func (e Error) Metadata() errawr.Metadata {
+	return e.ErrorMetadata
 }
 
 func (e Error) Bug() errawr.Error {

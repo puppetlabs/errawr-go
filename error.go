@@ -64,6 +64,9 @@ type Error interface {
 	// Arguments is the read-only argument map for this error.
 	Arguments() map[string]interface{}
 
+	// Metadata returns additional environment-specific information for this error.
+	Metadata() Metadata
+
 	// Bug causes this error to become a buggy error. Buggy errors are subject
 	// to additional reporting.
 	Bug() Error
