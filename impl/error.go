@@ -1,24 +1,25 @@
 package impl
 
 import (
+	"encoding/json"
 	"fmt"
 
 	errawr "github.com/reflect/errawr-go"
 )
 
 type ErrorDomain struct {
-	Key   string
-	Title string
+	Key   string `json:"key"`
+	Title string `json:"title"`
 }
 
 type ErrorSection struct {
-	Key   string
-	Title string
+	Key   string `json:"key"`
+	Title string `json:"title"`
 }
 
 type ErrorDescription struct {
-	Friendly  string
-	Technical string
+	Friendly  string `json:"friendly"`
+	Technical string `json:"technical"`
 }
 
 type Error struct {
@@ -72,6 +73,15 @@ func (e Error) Arguments() map[string]interface{} {
 	return m
 }
 
+func (e Error) ArgumentDescription(name string) string {
+	argument, ok := e.ErrorArguments[name]
+	if !ok {
+		return ""
+	}
+
+	return argument.Description
+}
+
 func (e Error) Metadata() errawr.Metadata {
 	return e.ErrorMetadata
 }
@@ -111,4 +121,18 @@ func (e Error) Error() string {
 	}
 
 	return repr
+}
+
+func (e Error) MarshalJSON() ([]byte, error) {
+	return json.Marshal(NewErrorEnvelope(&e))
+}
+
+func (e *Error) UnmarshalJSON(data []byte) error {
+	var envelope ErrorEnvelope
+	if err := json.Unmarshal(data, &envelope); err != nil {
+		return err
+	}
+
+	*e = *envelope.AsError()
+	return nil
 }

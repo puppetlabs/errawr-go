@@ -64,6 +64,10 @@ type Error interface {
 	// Arguments is the read-only argument map for this error.
 	Arguments() map[string]interface{}
 
+	// ArgumentDescription returns a description of the given argument, if
+	// available.
+	ArgumentDescription(name string) string
+
 	// Metadata returns additional environment-specific information for this error.
 	Metadata() Metadata
 

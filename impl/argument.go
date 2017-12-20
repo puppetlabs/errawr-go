@@ -1,8 +1,8 @@
 package impl
 
 type ErrorArgument struct {
-	Value       interface{}
-	Description string
+	Value       interface{} `json:"value"`
+	Description string      `json:"description"`
 }
 
 func (ea *ErrorArgument) Set(value interface{}) {
