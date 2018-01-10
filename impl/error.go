@@ -48,8 +48,8 @@ func (e Error) Code() string {
 	return fmt.Sprintf(`%s_%s_%s`, e.ErrorDomain.Key, e.ErrorSection.Key, e.ErrorCode)
 }
 
-func (e Error) Is(code string) bool {
-	return e.Code() == code
+func (e *Error) Is(code string) bool {
+	return e != nil && e.Code() == code
 }
 
 func (e Error) Title() string {
@@ -91,8 +91,8 @@ func (e Error) Bug() errawr.Error {
 	return &e
 }
 
-func (e Error) IsBug() bool {
-	return e.buggy
+func (e *Error) IsBug() bool {
+	return e != nil && e.buggy
 }
 
 func (e Error) WithCause(cause errawr.Error) errawr.Error {
