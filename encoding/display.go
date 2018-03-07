@@ -19,6 +19,14 @@ type ErrorDisplayEnvelope struct {
 }
 
 func ForDisplay(e errawr.Error) *ErrorDisplayEnvelope {
+	return ForDisplayWithSensitivity(e, errawr.ErrorSensitivityEdge)
+}
+
+func ForDisplayWithSensitivity(e errawr.Error, sensitivity errawr.ErrorSensitivity) *ErrorDisplayEnvelope {
+	if e.Sensitivity() > sensitivity {
+		return &ErrorDisplayEnvelope{Code: e.Code(), Title: e.Title()}
+	}
+
 	causes := e.Causes()
 	ces := make([]*ErrorDisplayEnvelope, len(causes))
 	for i, cause := range causes {

@@ -3,22 +3,28 @@ package impl
 import errawr "github.com/reflect/errawr-go"
 
 type ErrorEnvelope struct {
-	Version     uint64            `json:"version"`
-	Domain      *ErrorDomain      `json:"domain"`
-	Section     *ErrorSection     `json:"section"`
-	Code        string            `json:"code"`
-	Title       string            `json:"title"`
-	Description *ErrorDescription `json:"description"`
-	Arguments   ErrorArguments    `json:"arguments"`
-	Metadata    *ErrorMetadata    `json:"metadata,omitempty"`
-	Causes      []*ErrorEnvelope  `json:"causes"`
-	Buggy       bool              `json:"buggy"`
+	Version     uint64                  `json:"version"`
+	Domain      *ErrorDomain            `json:"domain"`
+	Section     *ErrorSection           `json:"section"`
+	Code        string                  `json:"code"`
+	Title       string                  `json:"title"`
+	Description *ErrorDescription       `json:"description"`
+	Arguments   ErrorArguments          `json:"arguments"`
+	Metadata    *ErrorMetadata          `json:"metadata,omitempty"`
+	Causes      []*ErrorEnvelope        `json:"causes"`
+	Buggy       bool                    `json:"buggy"`
+	Sensitivity errawr.ErrorSensitivity `json:"sensitivity"`
 }
 
 func (ee ErrorEnvelope) AsError() *Error {
 	var causes []errawr.Error
 	for _, cause := range ee.Causes {
 		causes = append(causes, cause.AsError())
+	}
+
+	sensitivity := ee.Sensitivity
+	if ee.Buggy && sensitivity < errawr.ErrorSensitivityEdge {
+		sensitivity = errawr.ErrorSensitivityEdge
 	}
 
 	return &Error{
@@ -30,6 +36,7 @@ func (ee ErrorEnvelope) AsError() *Error {
 		ErrorDescription: ee.Description,
 		ErrorArguments:   ee.Arguments,
 		ErrorMetadata:    ee.Metadata,
+		ErrorSensitivity: sensitivity,
 
 		causes: causes,
 		buggy:  ee.Buggy,
@@ -52,6 +59,7 @@ func NewErrorEnvelope(e *Error) *ErrorEnvelope {
 		Description: e.ErrorDescription,
 		Arguments:   e.ErrorArguments,
 		Metadata:    e.ErrorMetadata,
+		Sensitivity: e.ErrorSensitivity,
 		Causes:      ces,
 		Buggy:       e.buggy,
 	}

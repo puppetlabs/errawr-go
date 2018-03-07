@@ -35,6 +35,25 @@ type ErrorDescription interface {
 	Technical() string
 }
 
+// ErrorSensitivity is how sensitive an error is to being revealed outside of
+// the domain in which it was generated.
+type ErrorSensitivity int
+
+const (
+	// ErrorSensitivityNone is the default error sensitivity. These errors can
+	// be presented anywhere, even to third parties.
+	ErrorSensitivityNone ErrorSensitivity = 0
+
+	// ErrorSensitivityEdge restricts errors to components that are part of the
+	// same system. Edge-sensitive errors may cross error domains, but may not
+	// be propagated to third-party components.
+	ErrorSensitivityEdge ErrorSensitivity = 100
+
+	// ErrorSensitivityAll restricts errors to only being shown within the same
+	// domain.
+	ErrorSensitivityAll ErrorSensitivity = 1000
+)
+
 // Error is the type of all user-facing errors.
 type Error interface {
 	error
@@ -72,11 +91,20 @@ type Error interface {
 	Metadata() Metadata
 
 	// Bug causes this error to become a buggy error. Buggy errors are subject
-	// to additional reporting.
+	// to additional reporting. Buggy errors implicitly have a sensitivity of at
+	// least ErrorSensitivityEdge.
 	Bug() Error
 
 	// IsBug returns true if this error is buggy.
 	IsBug() bool
+
+	// WithSensitivity sets this error's sensitivity. Subsequent calls to this
+	// method can only further restrict sensitivity, not make the error less
+	// sensitive.
+	WithSensitivity(sensitivity ErrorSensitivity) Error
+
+	// Sensitivity returns the sensitivity for this error.
+	Sensitivity() ErrorSensitivity
 
 	// WithCause causes this error to be caused by the given error. If it is
 	// already caused by another error, it will be caused by both errors.
