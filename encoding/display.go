@@ -12,9 +12,9 @@ type ErrorDescription struct {
 type ErrorDisplayEnvelope struct {
 	Code        string                  `json:"code"`
 	Title       string                  `json:"title"`
-	Description *ErrorDescription       `json:"description"`
-	Arguments   map[string]interface{}  `json:"arguments"`
-	Formatted   *ErrorDescription       `json:"formatted"`
+	Description *ErrorDescription       `json:"description,omitempty"`
+	Arguments   map[string]interface{}  `json:"arguments,omitempty"`
+	Formatted   *ErrorDescription       `json:"formatted,omitempty"`
 	Causes      []*ErrorDisplayEnvelope `json:"causes,omitempty"`
 }
 

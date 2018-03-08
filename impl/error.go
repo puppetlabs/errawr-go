@@ -89,7 +89,7 @@ func (e Error) Metadata() errawr.Metadata {
 
 func (e Error) Bug() errawr.Error {
 	e.buggy = true
-	return e.WithSensitivity(errawr.ErrorSensitivityEdge)
+	return e.WithSensitivity(errawr.ErrorSensitivityBug)
 }
 
 func (e *Error) IsBug() bool {

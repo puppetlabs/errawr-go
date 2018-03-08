@@ -23,8 +23,8 @@ func (ee ErrorEnvelope) AsError() *Error {
 	}
 
 	sensitivity := ee.Sensitivity
-	if ee.Buggy && sensitivity < errawr.ErrorSensitivityEdge {
-		sensitivity = errawr.ErrorSensitivityEdge
+	if ee.Buggy && sensitivity < errawr.ErrorSensitivityBug {
+		sensitivity = errawr.ErrorSensitivityBug
 	}
 
 	return &Error{
