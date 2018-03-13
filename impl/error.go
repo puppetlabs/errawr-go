@@ -31,6 +31,7 @@ type Error struct {
 	ErrorDescription *ErrorDescription
 	ErrorArguments   ErrorArguments
 	ErrorMetadata    *ErrorMetadata
+	ErrorSensitivity errawr.ErrorSensitivity
 
 	causes []errawr.Error
 	buggy  bool
@@ -88,11 +89,23 @@ func (e Error) Metadata() errawr.Metadata {
 
 func (e Error) Bug() errawr.Error {
 	e.buggy = true
-	return &e
+	return e.WithSensitivity(errawr.ErrorSensitivityBug)
 }
 
 func (e *Error) IsBug() bool {
 	return e != nil && e.buggy
+}
+
+func (e Error) WithSensitivity(sensitivity errawr.ErrorSensitivity) errawr.Error {
+	if sensitivity > e.ErrorSensitivity {
+		e.ErrorSensitivity = sensitivity
+	}
+
+	return &e
+}
+
+func (e Error) Sensitivity() errawr.ErrorSensitivity {
+	return e.ErrorSensitivity
 }
 
 func (e Error) WithCause(cause errawr.Error) errawr.Error {

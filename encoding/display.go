@@ -12,13 +12,21 @@ type ErrorDescription struct {
 type ErrorDisplayEnvelope struct {
 	Code        string                  `json:"code"`
 	Title       string                  `json:"title"`
-	Description *ErrorDescription       `json:"description"`
-	Arguments   map[string]interface{}  `json:"arguments"`
-	Formatted   *ErrorDescription       `json:"formatted"`
+	Description *ErrorDescription       `json:"description,omitempty"`
+	Arguments   map[string]interface{}  `json:"arguments,omitempty"`
+	Formatted   *ErrorDescription       `json:"formatted,omitempty"`
 	Causes      []*ErrorDisplayEnvelope `json:"causes,omitempty"`
 }
 
 func ForDisplay(e errawr.Error) *ErrorDisplayEnvelope {
+	return ForDisplayWithSensitivity(e, errawr.ErrorSensitivityEdge)
+}
+
+func ForDisplayWithSensitivity(e errawr.Error, sensitivity errawr.ErrorSensitivity) *ErrorDisplayEnvelope {
+	if e.Sensitivity() > sensitivity {
+		return &ErrorDisplayEnvelope{Code: e.Code(), Title: e.Title()}
+	}
+
 	causes := e.Causes()
 	ces := make([]*ErrorDisplayEnvelope, len(causes))
 	for i, cause := range causes {

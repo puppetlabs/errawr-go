@@ -56,7 +56,6 @@ func TestDisplay(t *testing.T) {
 			Technical: "I am a cause.",
 		},
 	})
-	e = e.Bug()
 
 	b, err := json.Marshal(encoding.ForDisplay(e))
 	require.NoError(t, err)
@@ -80,12 +79,20 @@ func TestDisplay(t *testing.T) {
 					"friendly": "I am a cause.",
 					"technical": "I am a cause."
 				},
-				"arguments": {},
 				"formatted": {
 					"friendly": "I am a cause.",
 					"technical": "I am a cause."
 				}
 			}
 		]
+	}`, string(b))
+
+	e = e.Bug()
+
+	b, err = json.Marshal(encoding.ForDisplay(e))
+	require.NoError(t, err)
+	require.JSONEq(t, `{
+		"code": "td_ts_test",
+		"title": "Test Error"
 	}`, string(b))
 }
