@@ -5,7 +5,7 @@ package impl_test
 import (
 	"testing"
 
-	"github.com/reflect/errawr-go/impl"
+	"github.com/puppetlabs/errawr-go/impl"
 	"github.com/stretchr/testify/assert"
 )
 

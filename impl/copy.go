@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	errawr "github.com/reflect/errawr-go"
+	errawr "github.com/puppetlabs/errawr-go"
 )
 
 func Copy(e errawr.Error) *Error {

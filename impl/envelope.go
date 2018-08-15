@@ -1,6 +1,6 @@
 package impl
 
-import errawr "github.com/reflect/errawr-go"
+import errawr "github.com/puppetlabs/errawr-go"
 
 type ErrorEnvelope struct {
 	Version     uint64                  `json:"version"`

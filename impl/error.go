@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	errawr "github.com/reflect/errawr-go"
+	errawr "github.com/puppetlabs/errawr-go"
 )
 
 type ErrorDomain struct {

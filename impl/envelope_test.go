@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"testing"
 
-	errawr "github.com/reflect/errawr-go"
-	"github.com/reflect/errawr-go/impl"
+	errawr "github.com/puppetlabs/errawr-go"
+	"github.com/puppetlabs/errawr-go/impl"
 	"github.com/stretchr/testify/require"
 )
 

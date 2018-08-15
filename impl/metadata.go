@@ -1,7 +1,7 @@
 package impl
 
 import (
-	"github.com/reflect/errawr-go"
+	"github.com/puppetlabs/errawr-go"
 )
 
 type HTTPErrorMetadata struct {

@@ -1,7 +1,7 @@
 package encoding
 
 import (
-	errawr "github.com/reflect/errawr-go"
+	errawr "github.com/puppetlabs/errawr-go"
 )
 
 type ErrorDescription struct {
