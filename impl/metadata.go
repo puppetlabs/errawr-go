@@ -5,7 +5,7 @@ import (
 )
 
 type HTTPErrorMetadata struct {
-	ErrorStatus int `json:"error_status"`
+	ErrorStatus int
 }
 
 func (hem HTTPErrorMetadata) Status() int {
@@ -13,7 +13,7 @@ func (hem HTTPErrorMetadata) Status() int {
 }
 
 type ErrorMetadata struct {
-	HTTPErrorMetadata *HTTPErrorMetadata `json:"http"`
+	HTTPErrorMetadata *HTTPErrorMetadata
 }
 
 func (em ErrorMetadata) HTTP() (errawr.HTTPMetadata, bool) {

@@ -3,6 +3,7 @@
 package impl_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/puppetlabs/errawr-go/impl"
@@ -33,4 +34,12 @@ func TestErrorImmutability(t *testing.T) {
 	assert.Len(t, err4.Causes(), 2)
 	assert.Equal(t, err4.Causes()[0], cause1)
 	assert.Equal(t, err4.Causes()[1], cause2)
+}
+
+func TestErrorWithGoCause(t *testing.T) {
+	err := (&impl.Error{ErrorTitle: "Error 1"}).WithCause(fmt.Errorf("oh no!"))
+	assert.Len(t, err.Causes(), 1)
+	assert.Equal(t, "errors_errorString", err.Causes()[0].Code())
+	assert.Equal(t, "*errors.errorString", err.Causes()[0].Title())
+	assert.Equal(t, "oh no!", err.Causes()[0].FormattedDescription().Friendly())
 }

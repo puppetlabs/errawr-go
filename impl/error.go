@@ -1,25 +1,25 @@
 package impl
 
 import (
-	"encoding/json"
 	"fmt"
 
 	errawr "github.com/puppetlabs/errawr-go"
+	"github.com/puppetlabs/errawr-go/golang"
 )
 
 type ErrorDomain struct {
-	Key   string `json:"key"`
-	Title string `json:"title"`
+	Key   string
+	Title string
 }
 
 type ErrorSection struct {
-	Key   string `json:"key"`
-	Title string `json:"title"`
+	Key   string
+	Title string
 }
 
 type ErrorDescription struct {
-	Friendly  string `json:"friendly"`
-	Technical string `json:"technical"`
+	Friendly  string
+	Technical string
 }
 
 type Error struct {
@@ -46,11 +46,15 @@ func (e Error) Section() errawr.ErrorSection {
 }
 
 func (e Error) Code() string {
+	return e.ErrorCode
+}
+
+func (e Error) ID() string {
 	return fmt.Sprintf(`%s_%s_%s`, e.ErrorDomain.Key, e.ErrorSection.Key, e.ErrorCode)
 }
 
-func (e *Error) Is(code string) bool {
-	return e != nil && e.Code() == code
+func (e *Error) Is(id string) bool {
+	return e != nil && e.ID() == id
 }
 
 func (e Error) Title() string {
@@ -84,6 +88,10 @@ func (e Error) ArgumentDescription(name string) string {
 }
 
 func (e Error) Metadata() errawr.Metadata {
+	if e.ErrorMetadata == nil {
+		return &ErrorMetadata{}
+	}
+
 	return e.ErrorMetadata
 }
 
@@ -108,13 +116,18 @@ func (e Error) Sensitivity() errawr.ErrorSensitivity {
 	return e.ErrorSensitivity
 }
 
-func (e Error) WithCause(cause errawr.Error) errawr.Error {
-	if cause.IsBug() {
+func (e Error) WithCause(cause error) errawr.Error {
+	ce, ok := cause.(errawr.Error)
+	if !ok {
+		ce = golang.NewError(cause)
+	}
+
+	if ce.IsBug() {
 		e.buggy = true
 	}
 
 	e.causes = append([]errawr.Error{}, e.causes...)
-	e.causes = append(e.causes, cause)
+	e.causes = append(e.causes, ce)
 	return &e
 }
 
@@ -134,18 +147,4 @@ func (e Error) Error() string {
 	}
 
 	return repr
-}
-
-func (e Error) MarshalJSON() ([]byte, error) {
-	return json.Marshal(NewErrorEnvelope(&e))
-}
-
-func (e *Error) UnmarshalJSON(data []byte) error {
-	var envelope ErrorEnvelope
-	if err := json.Unmarshal(data, &envelope); err != nil {
-		return err
-	}
-
-	*e = *envelope.AsError()
-	return nil
 }

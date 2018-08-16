@@ -60,6 +60,8 @@ func TestDisplay(t *testing.T) {
 	b, err := json.Marshal(encoding.ForDisplay(e))
 	require.NoError(t, err)
 	require.JSONEq(t, `{
+		"domain": "td",
+		"section": "ts",
 		"code": "td_ts_test",
 		"title": "Test Error",
 		"description": {
@@ -73,6 +75,8 @@ func TestDisplay(t *testing.T) {
 		},
 		"causes": [
 			{
+				"domain": "td",
+				"section": "ts",
 				"code": "td_ts_test_cause",
 				"title": "Test Error Cause",
 				"description": {
@@ -87,11 +91,57 @@ func TestDisplay(t *testing.T) {
 		]
 	}`, string(b))
 
+	var ede encoding.ErrorDisplayEnvelope
+	require.NoError(t, json.Unmarshal(b, &ede))
+
+	var expected errawr.Error = &impl.Error{
+		Version: errawr.Version,
+		ErrorDomain: &impl.ErrorDomain{
+			Key: e.Domain().Key(),
+		},
+		ErrorSection: &impl.ErrorSection{
+			Key: e.Section().Key(),
+		},
+		ErrorCode:  e.Code(),
+		ErrorTitle: e.Title(),
+		ErrorDescription: &impl.ErrorDescription{
+			Friendly:  e.Description().Friendly(),
+			Technical: e.Description().Technical(),
+		},
+		ErrorArguments: impl.ErrorArguments{
+			"test": &impl.ErrorArgument{Value: true},
+		},
+		ErrorMetadata:    &impl.ErrorMetadata{},
+		ErrorSensitivity: errawr.ErrorSensitivityEdge,
+	}
+	expected = expected.WithCause(&impl.Error{
+		Version: errawr.Version,
+		ErrorDomain: &impl.ErrorDomain{
+			Key: e.Causes()[0].Domain().Key(),
+		},
+		ErrorSection: &impl.ErrorSection{
+			Key: e.Causes()[0].Section().Key(),
+		},
+		ErrorCode:  e.Causes()[0].Code(),
+		ErrorTitle: e.Causes()[0].Title(),
+		ErrorDescription: &impl.ErrorDescription{
+			Friendly:  e.Causes()[0].Description().Friendly(),
+			Technical: e.Causes()[0].Description().Technical(),
+		},
+		ErrorArguments:   impl.ErrorArguments{},
+		ErrorMetadata:    &impl.ErrorMetadata{},
+		ErrorSensitivity: errawr.ErrorSensitivityEdge,
+	})
+
+	require.Equal(t, expected, ede.AsError())
+
 	e = e.Bug()
 
 	b, err = json.Marshal(encoding.ForDisplay(e))
 	require.NoError(t, err)
 	require.JSONEq(t, `{
+		"domain": "td",
+		"section": "ts",
 		"code": "td_ts_test",
 		"title": "Test Error"
 	}`, string(b))

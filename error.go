@@ -69,11 +69,14 @@ type Error interface {
 	// Section is the domain-specific section for this error.
 	Section() ErrorSection
 
-	// Code is the full code for this error.
+	// Code is the name for this error.
 	Code() string
 
-	// Is tests whether this error's code is equivalent to the passed code.
-	Is(code string) bool
+	// ID is the complete identifier for this error.
+	ID() string
+
+	// Is tests whether this error's ID is equivalent to the passed ID.
+	Is(id string) bool
 
 	// Title is the short title for this error.
 	Title() string
@@ -113,7 +116,7 @@ type Error interface {
 
 	// WithCause causes this error to be caused by the given error. If it is
 	// already caused by another error, it will be caused by both errors.
-	WithCause(cause Error) Error
+	WithCause(cause error) Error
 
 	// Causes returns the list of causes for this error.
 	Causes() []Error

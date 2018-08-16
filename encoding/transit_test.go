@@ -1,15 +1,16 @@
-package impl_test
+package encoding_test
 
 import (
 	"encoding/json"
 	"testing"
 
 	errawr "github.com/puppetlabs/errawr-go"
+	"github.com/puppetlabs/errawr-go/encoding"
 	"github.com/puppetlabs/errawr-go/impl"
 	"github.com/stretchr/testify/require"
 )
 
-func TestErrorJSONEncodingTransitivity(t *testing.T) {
+func TestTransit(t *testing.T) {
 	var ea errawr.Error = &impl.Error{
 		Version: errawr.Version,
 		ErrorDomain: &impl.ErrorDomain{
@@ -38,13 +39,33 @@ func TestErrorJSONEncodingTransitivity(t *testing.T) {
 			},
 		},
 	}
-	ea = ea.WithCause(&impl.Error{ErrorTitle: "hello"})
+	ea = ea.WithCause(&impl.Error{
+		Version: errawr.Version,
+		ErrorDomain: &impl.ErrorDomain{
+			Key:   "td",
+			Title: "Test Domain",
+		},
+		ErrorSection: &impl.ErrorSection{
+			Key:   "ts",
+			Title: "Test Section",
+		},
+		ErrorCode:  "hello",
+		ErrorTitle: "Hello Error",
+		ErrorDescription: &impl.ErrorDescription{
+			Friendly:  "Hello!",
+			Technical: "Hi.",
+		},
+		ErrorMetadata: &impl.ErrorMetadata{},
+	})
 	ea = ea.Bug()
 
-	b, err := json.Marshal(ea)
+	env := encoding.ForTransit(ea)
+	require.Equal(t, ea, env.AsError())
+
+	b, err := json.Marshal(env)
 	require.NoError(t, err)
 
-	var ec impl.Error
-	require.NoError(t, json.Unmarshal(b, &ec))
-	require.Equal(t, ea, &ec)
+	var ete encoding.ErrorTransitEnvelope
+	require.NoError(t, json.Unmarshal(b, &ete))
+	require.Equal(t, ea, ete.AsError())
 }
