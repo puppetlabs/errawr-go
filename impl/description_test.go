@@ -83,3 +83,29 @@ func TestDescriptionFormattingHelpers(t *testing.T) {
 	assert.Equal(t, "We couldn't find the columns `col1`, `col2`, and `col3`.", fd.Friendly())
 	assert.Equal(t, "The field \"Field 1\" references nonexistent columns `col1`, `col2`, and `col3`.", fd.Technical())
 }
+
+func TestDescriptionFormattingEnums(t *testing.T) {
+	desc := &impl.ErrorDescription{
+		Friendly: "We couldn't find the columns {{#join columns}}{{pre this}}{{/join}}.",
+		Technical: `The field {{quote field}} references nonexistent columns:
+
+{{#enum columns}}{{quote this}}{{/enum}}`,
+	}
+
+	args := impl.ErrorArguments{
+		"field":   impl.NewErrorArgument("Field 1", "the field that references the nonexistent columns"),
+		"columns": impl.NewErrorArgument([]string{"col1", "col2", "col3"}, "the columns that could not be found"),
+	}
+
+	err := &impl.Error{
+		ErrorArguments:   args,
+		ErrorDescription: desc,
+	}
+
+	fd := err.FormattedDescription()
+	assert.Equal(t, `The field "Field 1" references nonexistent columns:
+
+* "col1"
+* "col2"
+* "col3"`, fd.Technical())
+}
