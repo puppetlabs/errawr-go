@@ -1,6 +1,6 @@
 package impl
 
-import logging "github.com/reflect/reflect-logging"
+import logging "github.com/puppetlabs/insights-logging"
 
 var (
 	logger = logging.Builder().At("errawr-go", "impl")
