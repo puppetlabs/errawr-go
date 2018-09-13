@@ -35,7 +35,8 @@ func TestTransit(t *testing.T) {
 		},
 		ErrorMetadata: &impl.ErrorMetadata{
 			HTTPErrorMetadata: &impl.HTTPErrorMetadata{
-				ErrorStatus: 500,
+				ErrorStatus:  500,
+				ErrorHeaders: map[string][]string{"Test-Header": []string{"Test-Value"}},
 			},
 		},
 	}

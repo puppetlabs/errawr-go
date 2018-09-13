@@ -25,7 +25,8 @@ func Copy(e errawr.Error) *Error {
 	metadata := &ErrorMetadata{}
 	if hm, ok := e.Metadata().HTTP(); ok {
 		metadata.HTTPErrorMetadata = &HTTPErrorMetadata{
-			ErrorStatus: hm.Status(),
+			ErrorStatus:  hm.Status(),
+			ErrorHeaders: HTTPErrorMetadataHeaders(hm.Headers()),
 		}
 	}
 

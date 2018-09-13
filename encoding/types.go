@@ -16,7 +16,8 @@ type ErrorDescription struct {
 }
 
 type HTTPErrorMetadata struct {
-	Status int `json:"status"`
+	Status  int                 `json:"status"`
+	Headers map[string][]string `json:"headers"`
 }
 
 type ErrorMetadata struct {

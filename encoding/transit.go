@@ -43,7 +43,8 @@ func (ete ErrorTransitEnvelope) AsError() errawr.Error {
 	metadata := &impl.ErrorMetadata{}
 	if hm := ete.Metadata.HTTPErrorMetadata; hm != nil {
 		metadata.HTTPErrorMetadata = &impl.HTTPErrorMetadata{
-			ErrorStatus: hm.Status,
+			ErrorStatus:  hm.Status,
+			ErrorHeaders: hm.Headers,
 		}
 	}
 
@@ -115,7 +116,8 @@ func ForTransit(e errawr.Error) *ErrorTransitEnvelope {
 
 	if hm, ok := e.Metadata().HTTP(); ok {
 		ete.Metadata.HTTPErrorMetadata = &HTTPErrorMetadata{
-			Status: hm.Status(),
+			Status:  hm.Status(),
+			Headers: hm.Headers(),
 		}
 	}
 
