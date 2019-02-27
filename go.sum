@@ -1,0 +1,16 @@
+github.com/davecgh/go-spew v0.0.0-20161028175848-04cdfd42973b/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/go-stack/stack v1.8.0 h1:5SgMzNM5HxrEjV0ww2lTmX6E2Izsfxas4+YHWRs3Lsk=
+github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/melR3HDY=
+github.com/inconshreveable/log15 v0.0.0-20180818164646-67afb5ed74ec h1:CGkYB1Q7DSsH/ku+to+foV4agt2F2miquaLUgF6L178=
+github.com/inconshreveable/log15 v0.0.0-20180818164646-67afb5ed74ec/go.mod h1:cOaXtrgN4ScfRrD9Bre7U1thNq5RtJ8ZoP4iXVGRj6o=
+github.com/mattn/go-colorable v0.0.9 h1:UVL0vNpWh04HeJXV0KLcaT7r06gOH2l4OW6ddYRUIY4=
+github.com/mattn/go-colorable v0.0.9/go.mod h1:9vuHe8Xs5qXnSaW/c/ABM9alt+Vo+STaOChaDxuIBZU=
+github.com/mattn/go-isatty v0.0.4 h1:bnP0vzxcAdeI1zdubAl5PjU6zsERjGZb7raWodagDYs=
+github.com/mattn/go-isatty v0.0.4/go.mod h1:M+lRXTBqGeGNdLjl/ufCoiOlB5xdOkqRJdNxMWT7Zi4=
+github.com/pmezard/go-difflib v0.0.0-20151028094244-d8ed2627bdf0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/puppetlabs/insights-logging v0.0.0-20180912211921-3b7d3d14cd5b h1:csdggFOzdzhikHBgnuFDwcdtFV4o/iF/7v2yySMWMvE=
+github.com/puppetlabs/insights-logging v0.0.0-20180912211921-3b7d3d14cd5b/go.mod h1:wPccOvbQAZAyYVoYD96psW8poDy42dBZVyZoq49fT/I=
+github.com/reflect/raymond v0.0.0-20171115080825-c9bbd5eb5acf h1:KSfPM3pMrxYv+R2DsVObcUQPmpKj17i/fyoxy5uRR0Y=
+github.com/reflect/raymond v0.0.0-20171115080825-c9bbd5eb5acf/go.mod h1:pOc7SXg5H6HYs8GOy/1QJKLCV4kvhPGGL+/CKYlyeNc=
+github.com/stretchr/testify v0.0.0-20170809224252-890a5c3458b4/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
+golang.org/x/sys v0.0.0-20180925112736-b09afc3d579e/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
