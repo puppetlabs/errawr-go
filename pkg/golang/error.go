@@ -6,7 +6,7 @@ import (
 	"strings"
 	"unicode"
 
-	errawr "github.com/puppetlabs/errawr-go"
+	"github.com/puppetlabs/errawr-go/pkg/errawr"
 )
 
 type ErrorDomain struct{}

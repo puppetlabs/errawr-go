@@ -3,8 +3,8 @@ package impl
 import (
 	"fmt"
 
-	errawr "github.com/puppetlabs/errawr-go"
-	"github.com/puppetlabs/errawr-go/golang"
+	"github.com/puppetlabs/errawr-go/pkg/errawr"
+	"github.com/puppetlabs/errawr-go/pkg/golang"
 )
 
 type ErrorDomain struct {

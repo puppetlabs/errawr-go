@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/puppetlabs/errawr-go/golang"
+	"github.com/puppetlabs/errawr-go/pkg/golang"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -22,7 +22,7 @@ func TestGoErrorCause(t *testing.T) {
 
 	assert.True(t, err.Domain().Is("err"))
 	assert.True(t, err.Section().Is("golang"))
-	assert.Equal(t, "github_com_puppetlabs_errawr_go_golang_test_GoTestError", err.Code())
+	assert.Equal(t, "github_com_puppetlabs_errawr_go_pkg_golang_test_GoTestError", err.Code())
 	assert.Equal(t, gerr.Error(), err.FormattedDescription().Friendly())
 	assert.Equal(t, gerr.Error(), err.FormattedDescription().Technical())
 }

@@ -3,7 +3,7 @@ package impl
 import (
 	"net/http"
 
-	"github.com/puppetlabs/errawr-go"
+	"github.com/puppetlabs/errawr-go/pkg/errawr"
 )
 
 type HTTPErrorMetadataHeaders map[string][]string
