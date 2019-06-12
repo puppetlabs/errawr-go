@@ -30,6 +30,7 @@ type Error struct {
 	ErrorTitle       string
 	ErrorDescription *ErrorDescription
 	ErrorArguments   ErrorArguments
+	ErrorItems       ErrorItems
 	ErrorMetadata    *ErrorMetadata
 	ErrorSensitivity errawr.ErrorSensitivity
 
@@ -102,6 +103,10 @@ func (e Error) Bug() errawr.Error {
 
 func (e *Error) IsBug() bool {
 	return e != nil && e.buggy
+}
+
+func (e Error) Items() (map[string]errawr.Error, bool) {
+	return e.ErrorItems, e.ErrorItems != nil
 }
 
 func (e Error) WithSensitivity(sensitivity errawr.ErrorSensitivity) errawr.Error {

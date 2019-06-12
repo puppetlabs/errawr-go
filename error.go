@@ -106,6 +106,10 @@ type Error interface {
 	// IsBug returns true if this error is buggy.
 	IsBug() bool
 
+	// Items returns the errors contained by this error. If this error does not
+	// have the container trait, this method returns false.
+	Items() (map[string]Error, bool)
+
 	// WithSensitivity sets this error's sensitivity. Subsequent calls to this
 	// method can only further restrict sensitivity, not make the error less
 	// sensitive.

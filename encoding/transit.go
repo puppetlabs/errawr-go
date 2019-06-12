@@ -13,6 +13,7 @@ type ErrorTransitEnvelope struct {
 	Title       string                  `json:"title"`
 	Description ErrorDescription        `json:"description"`
 	Arguments   ErrorArguments          `json:"arguments"`
+	Items       ErrorItems              `json:"items,omitempty"`
 	Metadata    ErrorMetadata           `json:"metadata,omitempty"`
 	Causes      []*ErrorTransitEnvelope `json:"causes"`
 	Buggy       bool                    `json:"buggy"`
@@ -37,6 +38,14 @@ func (ete ErrorTransitEnvelope) AsError() errawr.Error {
 				Value:       argument.Value,
 				Description: argument.Description,
 			}
+		}
+	}
+
+	var items impl.ErrorItems
+	if ete.Items != nil {
+		items = make(impl.ErrorItems, len(ete.Items))
+		for path, item := range ete.Items {
+			items[path] = item.AsError()
 		}
 	}
 
@@ -65,6 +74,7 @@ func (ete ErrorTransitEnvelope) AsError() errawr.Error {
 			Technical: ete.Description.Technical,
 		},
 		ErrorArguments:   arguments,
+		ErrorItems:       items,
 		ErrorMetadata:    metadata,
 		ErrorSensitivity: sensitivity,
 	}
@@ -111,6 +121,13 @@ func ForTransit(e errawr.Error) *ErrorTransitEnvelope {
 		ete.Arguments[name] = &ErrorArgument{
 			Value:       argument,
 			Description: e.ArgumentDescription(name),
+		}
+	}
+
+	if items, ok := e.Items(); ok {
+		ete.Items = make(ErrorItems, len(items))
+		for path, item := range items {
+			ete.Items[path] = ForTransit(item)
 		}
 	}
 

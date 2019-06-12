@@ -148,6 +148,10 @@ func (e *Error) IsBug() bool {
 	return e != nil && e.buggy
 }
 
+func (e Error) Items() (map[string]errawr.Error, bool) {
+	return nil, false
+}
+
 func (e Error) WithSensitivity(sensitivity errawr.ErrorSensitivity) errawr.Error {
 	if sensitivity > e.sensitivity {
 		e.sensitivity = sensitivity

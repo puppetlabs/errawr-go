@@ -30,3 +30,5 @@ type ErrorArgument struct {
 }
 
 type ErrorArguments map[string]*ErrorArgument
+
+type ErrorItems map[string]*ErrorTransitEnvelope
