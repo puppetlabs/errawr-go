@@ -1,0 +1,24 @@
+# github.com/davecgh/go-spew v1.1.1
+github.com/davecgh/go-spew/spew
+# github.com/go-stack/stack v1.8.0
+github.com/go-stack/stack
+# github.com/inconshreveable/log15 v0.0.0-20180818164646-67afb5ed74ec
+github.com/inconshreveable/log15
+# github.com/mattn/go-colorable v0.1.1
+github.com/mattn/go-colorable
+# github.com/mattn/go-isatty v0.0.6
+github.com/mattn/go-isatty
+# github.com/pmezard/go-difflib v1.0.0
+github.com/pmezard/go-difflib/difflib
+# github.com/puppetlabs/insights-logging v0.0.0-20180912211921-3b7d3d14cd5b
+github.com/puppetlabs/insights-logging
+# github.com/reflect/raymond v0.0.0-20190227215356-5fa3955f4a50
+github.com/reflect/raymond
+github.com/reflect/raymond/ast
+github.com/reflect/raymond/parser
+github.com/reflect/raymond/lexer
+# github.com/stretchr/testify v1.3.0
+github.com/stretchr/testify/assert
+github.com/stretchr/testify/require
+# golang.org/x/sys v0.0.0-20190226215855-775f8194d0f9
+golang.org/x/sys/unix

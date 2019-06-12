@@ -9,14 +9,15 @@ import (
 )
 
 type ErrorDisplayEnvelope struct {
-	Domain      string                  `json:"domain"`
-	Section     string                  `json:"section"`
-	Code        string                  `json:"code"`
-	Title       string                  `json:"title"`
-	Description *ErrorDescription       `json:"description,omitempty"`
-	Arguments   map[string]interface{}  `json:"arguments,omitempty"`
-	Formatted   *ErrorDescription       `json:"formatted,omitempty"`
-	Causes      []*ErrorDisplayEnvelope `json:"causes,omitempty"`
+	Domain      string                           `json:"domain"`
+	Section     string                           `json:"section"`
+	Code        string                           `json:"code"`
+	Title       string                           `json:"title"`
+	Description *ErrorDescription                `json:"description,omitempty"`
+	Arguments   map[string]interface{}           `json:"arguments,omitempty"`
+	Items       map[string]*ErrorDisplayEnvelope `json:"items,omitempty"`
+	Formatted   *ErrorDescription                `json:"formatted,omitempty"`
+	Causes      []*ErrorDisplayEnvelope          `json:"causes,omitempty"`
 }
 
 func (ede ErrorDisplayEnvelope) AsError() errawr.Error {
@@ -28,6 +29,14 @@ func (ede ErrorDisplayEnvelope) AsError() errawr.Error {
 
 		arguments[name] = &impl.ErrorArgument{
 			Value: argument,
+		}
+	}
+
+	var items impl.ErrorItems
+	if ede.Items != nil {
+		items = make(impl.ErrorItems, len(ede.Items))
+		for path, item := range ede.Items {
+			items[path] = item.AsError()
 		}
 	}
 
@@ -52,6 +61,7 @@ func (ede ErrorDisplayEnvelope) AsError() errawr.Error {
 		ErrorTitle:       ede.Title,
 		ErrorDescription: description,
 		ErrorArguments:   arguments,
+		ErrorItems:       items,
 		ErrorMetadata:    &impl.ErrorMetadata{},
 		ErrorSensitivity: errawr.ErrorSensitivityEdge,
 	}
@@ -79,6 +89,13 @@ func ForDisplayWithSensitivity(e errawr.Error, sensitivity errawr.ErrorSensitivi
 		Title:   e.Title(),
 	}
 
+	if items, ok := e.Items(); ok {
+		ede.Items = make(map[string]*ErrorDisplayEnvelope, len(items))
+		for path, item := range items {
+			ede.Items[path] = ForDisplayWithSensitivity(item, sensitivity)
+		}
+	}
+
 	if e.Sensitivity() > sensitivity {
 		return ede
 	}
@@ -87,7 +104,7 @@ func ForDisplayWithSensitivity(e errawr.Error, sensitivity errawr.ErrorSensitivi
 
 	ede.Causes = make([]*ErrorDisplayEnvelope, len(causes))
 	for i, cause := range causes {
-		ede.Causes[i] = ForDisplay(cause)
+		ede.Causes[i] = ForDisplayWithSensitivity(cause, sensitivity)
 	}
 
 	ede.Description = &ErrorDescription{

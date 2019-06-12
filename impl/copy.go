@@ -22,6 +22,14 @@ func Copy(e errawr.Error) *Error {
 		}
 	}
 
+	var eis ErrorItems
+	if items, ok := e.Items(); ok {
+		eis = make(ErrorItems, len(items))
+		for path, err := range items {
+			eis[path] = err
+		}
+	}
+
 	metadata := &ErrorMetadata{}
 	if hm, ok := e.Metadata().HTTP(); ok {
 		metadata.HTTPErrorMetadata = &HTTPErrorMetadata{
@@ -47,6 +55,7 @@ func Copy(e errawr.Error) *Error {
 			Technical: e.Description().Technical(),
 		},
 		ErrorArguments: eas,
+		ErrorItems:     eis,
 		ErrorMetadata:  metadata,
 
 		causes: e.Causes(),
