@@ -1,8 +1,8 @@
 package encoding
 
 import (
-	errawr "github.com/puppetlabs/errawr-go"
-	"github.com/puppetlabs/errawr-go/impl"
+	"github.com/puppetlabs/errawr-go/pkg/errawr"
+	"github.com/puppetlabs/errawr-go/pkg/impl"
 )
 
 type ErrorTransitEnvelope struct {
