@@ -1,3 +1,11 @@
+## [2.0.1](https://github.com/puppetlabs/errawr-go/compare/v2.0.0...v2.0.1) (2019-06-14)
+
+
+### Fix
+
+* Be sure to use Go modules in Travis CI ([7685b374d32b72380a7bdcfafbaa160f2cbd63d2](https://github.com/puppetlabs/errawr-go/commit/7685b374d32b72380a7bdcfafbaa160f2cbd63d2))
+* Comply with Go module versioning rules ([9f1727631911a7fee25a03396a39ed213d14d112](https://github.com/puppetlabs/errawr-go/commit/9f1727631911a7fee25a03396a39ed213d14d112))
+
 # [2.0.0](https://github.com/puppetlabs/errawr-go/compare/v1.0.0...v2.0.0) (2019-06-13)
 
 
