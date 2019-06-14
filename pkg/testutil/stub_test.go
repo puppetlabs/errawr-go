@@ -3,8 +3,8 @@ package testutil_test
 import (
 	"testing"
 
-	"github.com/puppetlabs/errawr-go/pkg/encoding"
-	"github.com/puppetlabs/errawr-go/pkg/testutil"
+	"github.com/puppetlabs/errawr-go/v2/pkg/encoding"
+	"github.com/puppetlabs/errawr-go/v2/pkg/testutil"
 	"github.com/stretchr/testify/assert"
 )
 

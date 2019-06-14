@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/puppetlabs/errawr-go/pkg/encoding"
-	"github.com/puppetlabs/errawr-go/pkg/errawr"
-	"github.com/puppetlabs/errawr-go/pkg/impl"
+	"github.com/puppetlabs/errawr-go/v2/pkg/encoding"
+	"github.com/puppetlabs/errawr-go/v2/pkg/errawr"
+	"github.com/puppetlabs/errawr-go/v2/pkg/impl"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

@@ -1,4 +1,4 @@
-module github.com/puppetlabs/errawr-go
+module github.com/puppetlabs/errawr-go/v2
 
 go 1.12
 

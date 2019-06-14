@@ -26,8 +26,8 @@ A complete example of encoding and rendering an error to an HTTP response:
 import (
     "net/http"
 
-    "github.com/puppetlabs/errawr-go/pkg/encoding"
-    "github.com/puppetlabs/errawr-go/pkg/errawr"
+    "github.com/puppetlabs/errawr-go/v2/pkg/encoding"
+    "github.com/puppetlabs/errawr-go/v2/pkg/errawr"
 )
 
 func WriteError(w http.ResponseWriter, err errawr.Error) {
@@ -77,8 +77,8 @@ for errors, especially in callbacks. You can use the `testutil` package for this
 import (
     "testing"
 
-    "github.com/puppetlabs/errawr-go/pkg/errawr"
-    "github.com/puppetlabs/errawr-go/pkg/testutil"
+    "github.com/puppetlabs/errawr-go/v2/pkg/errawr"
+    "github.com/puppetlabs/errawr-go/v2/pkg/testutil"
 )
 
 func TestCallback(t *testing.T) {

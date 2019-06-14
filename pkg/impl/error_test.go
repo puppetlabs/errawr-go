@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/puppetlabs/errawr-go/pkg/impl"
+	"github.com/puppetlabs/errawr-go/v2/pkg/impl"
 	"github.com/stretchr/testify/assert"
 )
 
