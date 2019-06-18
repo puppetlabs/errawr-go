@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/puppetlabs/errawr-go/compare/v2.0.1...v2.1.0) (2019-06-18)
+
+
+### Update
+
+* Remove superfluous logging ([a50f60d8939c81f4d298c6d94e89c99d3fd4b4e9](https://github.com/puppetlabs/errawr-go/commit/a50f60d8939c81f4d298c6d94e89c99d3fd4b4e9))
+
 ## [2.0.1](https://github.com/puppetlabs/errawr-go/compare/v2.0.0...v2.0.1) (2019-06-14)
 
 
