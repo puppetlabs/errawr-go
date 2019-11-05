@@ -1,3 +1,18 @@
+# [2.2.0](https://github.com/puppetlabs/errawr-go/compare/v2.1.0...v2.2.0) (2019-11-05)
+
+
+### Build
+
+* Fix semantic-release vulnerabilities ([b1e554a179d2abba278c6b358fd511cecbbea629](https://github.com/puppetlabs/errawr-go/commit/b1e554a179d2abba278c6b358fd511cecbbea629))
+
+### Update
+
+* Add "sensitivity" to the display encoding of an Errawr ([5ed9c15fc258ad81b9228eddb02413acc4cacee6](https://github.com/puppetlabs/errawr-go/commit/5ed9c15fc258ad81b9228eddb02413acc4cacee6))
+
+### Upgrade
+
+* Prepare for public release ([a6a16d84a4323760c15d0f20755dea7143f22a52](https://github.com/puppetlabs/errawr-go/commit/a6a16d84a4323760c15d0f20755dea7143f22a52))
+
 # [2.1.0](https://github.com/puppetlabs/errawr-go/compare/v2.0.1...v2.1.0) (2019-06-18)
 
 
