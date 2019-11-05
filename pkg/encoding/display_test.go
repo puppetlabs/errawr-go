@@ -56,6 +56,24 @@ func TestDisplay(t *testing.T) {
 			Technical: "I am a cause.",
 		},
 	})
+	e = e.WithCause(&impl.Error{
+		Version: errawr.Version,
+		ErrorDomain: &impl.ErrorDomain{
+			Key:   "td",
+			Title: "Test Domain",
+		},
+		ErrorSection: &impl.ErrorSection{
+			Key:   "ts",
+			Title: "Test Section",
+		},
+		ErrorCode:  "test_bug",
+		ErrorTitle: "Test Error Bug",
+		ErrorDescription: &impl.ErrorDescription{
+			Friendly:  "I am a bug.",
+			Technical: "I am a bug.",
+		},
+		ErrorSensitivity: errawr.ErrorSensitivityBug,
+	})
 
 	b, err := json.Marshal(encoding.ForDisplay(e))
 	require.NoError(t, err)
@@ -87,6 +105,13 @@ func TestDisplay(t *testing.T) {
 					"friendly": "I am a cause.",
 					"technical": "I am a cause."
 				}
+			},
+			{
+				"domain": "td",
+				"section": "ts",
+				"code": "td_ts_test_bug",
+				"title": "Test Error Bug",
+				"sensitivity": 200
 			}
 		]
 	}`, string(b))
@@ -112,7 +137,7 @@ func TestDisplay(t *testing.T) {
 			"test": &impl.ErrorArgument{Value: true},
 		},
 		ErrorMetadata:    &impl.ErrorMetadata{},
-		ErrorSensitivity: errawr.ErrorSensitivityEdge,
+		ErrorSensitivity: errawr.ErrorSensitivityNone,
 	}
 	expected = expected.WithCause(&impl.Error{
 		Version: errawr.Version,
@@ -130,7 +155,22 @@ func TestDisplay(t *testing.T) {
 		},
 		ErrorArguments:   impl.ErrorArguments{},
 		ErrorMetadata:    &impl.ErrorMetadata{},
-		ErrorSensitivity: errawr.ErrorSensitivityEdge,
+		ErrorSensitivity: errawr.ErrorSensitivityNone,
+	})
+	expected = expected.WithCause(&impl.Error{
+		Version: errawr.Version,
+		ErrorDomain: &impl.ErrorDomain{
+			Key: e.Causes()[1].Domain().Key(),
+		},
+		ErrorSection: &impl.ErrorSection{
+			Key: e.Causes()[1].Section().Key(),
+		},
+		ErrorCode:        e.Causes()[1].Code(),
+		ErrorTitle:       e.Causes()[1].Title(),
+		ErrorDescription: &impl.ErrorDescription{},
+		ErrorArguments:   impl.ErrorArguments{},
+		ErrorMetadata:    &impl.ErrorMetadata{},
+		ErrorSensitivity: errawr.ErrorSensitivityBug,
 	})
 
 	require.Equal(t, expected, ede.AsError())
@@ -143,6 +183,7 @@ func TestDisplay(t *testing.T) {
 		"domain": "td",
 		"section": "ts",
 		"code": "td_ts_test",
-		"title": "Test Error"
+		"title": "Test Error",
+		"sensitivity": 200
 	}`, string(b))
 }
